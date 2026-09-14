@@ -7,6 +7,9 @@
   },
   "packageManager": "pnpm@11.22.0",
   "scripts": {
+    "admin": "node --env-file-if-exists=.env.admin scripts/admin/server.mjs",
+    "admin:setup": "node scripts/admin/setup.mjs",
+    "admin:test": "node --test scripts/admin/*.test.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "check": "astro check",

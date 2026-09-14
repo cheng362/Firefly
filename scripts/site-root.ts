@@ -7,5 +7,7 @@ import { existsSync } from "node:fs";
  * Astro 把静态站点输出到 dist/client；本地直接跑 astro build 时输出到 dist。
  */
 export function resolveSiteRoot(): string {
+	if (process.env.FIREFLY_OUT_DIR)
+		return process.env.FIREFLY_OUT_DIR.replaceAll("\\", "/");
 	return existsSync("dist/client") ? "dist/client" : "dist";
 }

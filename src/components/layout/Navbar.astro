@@ -72,7 +72,7 @@ const links: NavBarLink[] = resolveNavMenuLinks();
 const logoConfig = siteConfig.navbar.logo;
 const logoAlt = logoConfig?.alt || siteConfig.title;
 const logoIsImage = logoConfig?.type === "image" || logoConfig?.type === "url";
-const logoBaseClass = "navbar-logo h-7 w-7 mb-1 mr-2 object-contain";
+const logoBaseClass = "navbar-logo h-7 w-auto mb-1 mr-2 object-contain";
 
 const logoFiles = import.meta.glob<ImageMetadata>(
 	"../../**/*.{png,jpg,jpeg,webp,avif,gif,svg}",
@@ -176,7 +176,8 @@ const logoVariants = await Promise.all(
                                                 data-logo-theme={variant.theme}
                                                 formats={getImageFormats()}
                                                 fallbackFormat={getFallbackFormat()}
-                                                widths={[28, 56]}
+                                                widths={[1, 2].map((scale) => Math.round(28 * variant.image!.width / variant.image!.height * scale))}
+                                                sizes={`${Math.round(28 * variant.image!.width / variant.image!.height)}px`}
                                                 loading="eager"
                                                 fetchpriority="high"
                                             />

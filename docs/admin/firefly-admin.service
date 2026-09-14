@@ -1,0 +1,24 @@
+[Unit]
+Description=Firefly blog and admin service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust user, group, directory and executable paths for your server.
+User=firefly
+Group=firefly
+WorkingDirectory=/srv/firefly
+Environment=NODE_ENV=production
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/env pnpm admin
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=1800
+KillSignal=SIGTERM
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

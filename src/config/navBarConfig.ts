@@ -102,28 +102,18 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			{
 				name: "GitHub",
-				url: "https://github.com/CuteLeaf/Firefly",
-				external: true,
+				url: "https://github.com/cheng362",
+				external: false,
 				icon: "fa7-brands:github",
 			},
-			{
-				name: "Gitee",
-				url: "https://gitee.com/CuteLeaf/Firefly",
-				external: true,
-				icon: "fa7-brands:gitee",
-			},
+			
 			{
 				name: "QQ交流群",
-				url: "https://qm.qq.com/q/ZGsFa8qX2G",
-				external: true,
+				url: "https://qm.qq.com/q/as3LKwzpd0",
+				external:false ,
 				icon: "fa7-brands:qq",
 			},
-			{
-				name: "Firefly文档",
-				url: "https://docs-firefly.cuteleaf.cn",
-				external: true,
-				icon: "material-symbols:docs",
-			},
+
 		],
 	});
 
@@ -240,4 +230,18 @@ export const LinkPresets: Record<string, NavBarLink> = {
 	},
 };
 
-export const navBarConfig: NavBarConfig = getDynamicNavBarConfig();
+// 后台可视化菜单。启用后按此列表的顺序显示，支持添加子菜单。
+export const customNavBarConfig: { enable: boolean; links: NavBarLink[] } = {
+	enable: false,
+	links: [
+		{ name: "首页", url: "/", icon: "material-symbols:home" },
+		{ name: "文章", url: "/archive/", icon: "material-symbols:article" },
+		{ name: "动态", url: "/dynamic/", pageKey: "dynamic" },
+		{ name: "相册", url: "/gallery/", pageKey: "gallery" },
+		{ name: "关于", url: "/about/" },
+	],
+};
+
+export const navBarConfig: NavBarConfig = customNavBarConfig.enable
+	? { links: customNavBarConfig.links }
+	: getDynamicNavBarConfig();

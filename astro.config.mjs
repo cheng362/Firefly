@@ -67,6 +67,7 @@ const adapter = process.env.CF_WORKERS
 
 // https://astro.build/config
 export default defineConfig({
+	outDir: process.env.FIREFLY_OUT_DIR || "./dist",
 	site: siteConfig.site_url,
 
 	base: "/",

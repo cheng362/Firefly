@@ -48,10 +48,10 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 	local: {
 		playlist: [
 			{
-				name: "使一颗心免于哀伤",
-				artist: "知更鸟 / HOYO-MiX / Chevy",
-				url: "/assets/music/使一颗心免于哀伤-哼唱.mp3",
-				cover: "/assets/music/cover/109951169585655912.webp",
+				name: "电动少女",
+				artist: "Chinese Football",
+				url: "/assets/music/电动少女.mp3",
+				cover: "/assets/music/cover/image.png",
 				lrc: "",
 			},
 		],
