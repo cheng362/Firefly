@@ -255,6 +255,8 @@ test("source assets get reusable public URLs for Markdown and config fields", as
 
 test("publication switches only after every check succeeds, locks edits and supports rollback", async (t) => {
 	const store = await fixture(t);
+	const postFile = "src/content/posts/example.md";
+	const postRevision = await store.write(postFile, "---\ntitle: Example\npublished: 2026-09-13\n---\nPost", null);
 	let fail = false;
 	const calls = [];
 	const publisher = new Publisher(store, async (command, env) => {
@@ -276,6 +278,12 @@ test("publication switches only after every check succeeds, locks edits and supp
 	await publisher.task;
 	assert.deepEqual(calls, ["check", "type-check", "build"]);
 	const first = store.state.active.directory;
+	await store.write(postFile, null, postRevision.revision);
+	await publisher.start();
+	await publisher.task;
+	assert.equal(publisher.snapshot().phase, "failed");
+	assert.equal(store.state.active.directory, first);
+	await store.write(postFile, "---\ntitle: Example\npublished: 2026-09-13\n---\nPost", null);
 	await store.write("public/uploads/change.txt", "new", null);
 	fail = true;
 	await publisher.start();

@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { access, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { stripVTControlCharacters } from "node:util";
-import { AdminError, safePath } from "./storage.mjs";
+import { AdminError, safePath, walk } from "./storage.mjs";
 
 export class Publisher {
 	constructor(store, runner) {
@@ -76,6 +76,18 @@ export class Publisher {
 			const relative = `.firefly-admin/releases/${id}`;
 			const directory = await safePath(this.store.root, relative);
 			await mkdir(directory, { recursive: true, mode: 0o700 });
+			const postFiles = await walk(
+				this.store.root,
+				"src/content/posts",
+				(file) => /\.mdx?$/.test(file),
+			);
+			if (this.store.state.active && postFiles.length === 0) {
+				throw new AdminError(
+					422,
+					"未找到任何文章文件，已阻止发布以保护当前线上版本",
+				);
+			}
+			this.append(`文章文件：${postFiles.length}\n`);
 			const env = {
 				...process.env,
 				FIREFLY_OUT_DIR: directory,
